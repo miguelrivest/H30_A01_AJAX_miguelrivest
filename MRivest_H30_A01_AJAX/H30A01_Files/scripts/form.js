@@ -172,8 +172,8 @@ function handleFormSubmission(event) {
         let splitDate = dateFormat.split('-');
         let year = splitDate[0];
         let month = splitDate[1];
-        let day = splitDate[2];
-        let dateString = `${month}/${day}/${year}`;
+        let day = (Number.parseInt(splitDate[2]) - 1).toString();
+        let dateString = `${year}/${month}/${day}`;
         // Number field values
         let wins = 0;
         let losses = 0;
@@ -186,15 +186,24 @@ function handleFormSubmission(event) {
         // Array of selected games
         let games = [];
         checkboxes.forEach((checkbox) => {
+            let input = checkbox.parentElement;
             if (checkbox.checked) {
-                games.push(checkbox.value);
+                games.push(input);
             }
         });
         let games_played = [];
         games.forEach((game) => {
+            let gameName = game.querySelector('input[type="checkbox"]').value;
+            let gameDate = game.querySelector('input[type="date"]').value;
+            let gameDateValue = new Date(gameDate);
+            let gameDateSplit = gameDateValue.toISOString().split('T')[0].split('-');
+            let gameYear = gameDateSplit[0];
+            let gameMonth = gameDateSplit[1];
+            let gameDay = gameDateSplit[2];
+            let gameDateString = `${gameYear}/${gameMonth}/${gameDay}`;
             let gameJSON = {
-                game: game,
-                date: dateString
+                game: gameName,
+                date: gameDateString
             };
             games_played.push(gameJSON);
         });
