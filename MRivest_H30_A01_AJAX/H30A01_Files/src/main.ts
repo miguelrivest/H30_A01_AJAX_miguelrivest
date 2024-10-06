@@ -23,7 +23,7 @@ lightToggle.addEventListener('click', toggleLightMode)
 
 window.onload = loadPlayers
 
-async function loadPlayers() {
+function loadPlayers() {
 
     // Check if user prefers light mode and toggles it if they do
     if (prefersLightColorScheme) {
@@ -140,7 +140,7 @@ function sortArray() {
     let sorted
     do {
         sorted = true
-        for (let i = 0; i < (playerArray.length - 2); i++) {
+        for (let i = 0; i < (playerArray.length - 1); i++) {
             let first: string = playerArray[i].last_name
             let second: string = playerArray[i + 1].last_name
             let comparison: number = first.localeCompare(second)

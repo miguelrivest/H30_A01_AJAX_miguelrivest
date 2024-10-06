@@ -30,26 +30,24 @@ gameType.addEventListener('change', () => filterPlayers(gameSelect.value, gameTy
 lightToggle.addEventListener('click', toggleLightMode);
 window.onload = loadPlayers;
 function loadPlayers() {
-    return __awaiter(this, void 0, void 0, function* () {
-        // Check if user prefers light mode and toggles it if they do
-        if (prefersLightColorScheme) {
-            toggleLightMode();
-        }
-        fetch(playerFileDir)
-            .then(res => {
-            return res.json();
-        }).then(obj => {
-            playerArray = obj;
-            sortArray();
-            addPlayersToSite(playerArray);
-        }).catch(e => {
-            let tempHeading = document.createElement("h3");
-            tempHeading.innerHTML = "There was an error while fetching the 'player.json' file. Could not load players.";
-            playerDiv.appendChild(tempHeading); // Display friendly message for the user
-            console.log(e); // This is not here for the user but rather for further investigation by the developers
-        });
-        loadGames();
+    // Check if user prefers light mode and toggles it if they do
+    if (prefersLightColorScheme) {
+        toggleLightMode();
+    }
+    fetch(playerFileDir)
+        .then(res => {
+        return res.json();
+    }).then(obj => {
+        playerArray = obj;
+        sortArray();
+        addPlayersToSite(playerArray);
+    }).catch(e => {
+        let tempHeading = document.createElement("h3");
+        tempHeading.innerHTML = "There was an error while fetching the 'player.json' file. Could not load players.";
+        playerDiv.appendChild(tempHeading); // Display friendly message for the user
+        console.log(e); // This is not here for the user but rather for further investigation by the developers
     });
+    loadGames();
 }
 function loadGames() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -138,7 +136,7 @@ function sortArray() {
     let sorted;
     do {
         sorted = true;
-        for (let i = 0; i < (playerArray.length - 2); i++) {
+        for (let i = 0; i < (playerArray.length - 1); i++) {
             let first = playerArray[i].last_name;
             let second = playerArray[i + 1].last_name;
             let comparison = first.localeCompare(second);
