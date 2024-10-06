@@ -1,6 +1,7 @@
 /// <reference path="form.ts"/>
 
 let playerDiv = document.querySelector("#player-display") as HTMLElement
+let checkboxes: NodeListOf<HTMLInputElement>
 let playerFileDir = "./files/players.json"
 let gameFileDir = "./files/games.json"
 let playerArray: Array<any>
@@ -9,17 +10,21 @@ let gameSelect = document.querySelector("#game-select")! as HTMLSelectElement
 let gameType = document.querySelector("#game-type")! as HTMLSelectElement
 let gameTypeTitle = document.querySelector("#type-title")! as HTMLElement
 let gameTypeArray
+let gameListDiv = document.querySelector("#game-list")! as HTMLElement
 let filterDiv = document.querySelector("#filter-container")!
 let showFormButton = document.querySelector("#add-player")!
 let formBlock = document.querySelector("#form-block")!
 let lightToggle = document.querySelector("#toggle-colors")!
 let isDarkMode = true
+let enrolledDate = document.querySelector("#enrolled")! as HTMLInputElement
 const prefersLightColorScheme = window.matchMedia('(prefers-color-scheme: light)').matches;
 
 showFormButton.addEventListener('click', toggleForm)
 gameSelect.addEventListener('change', () => filterPlayers(gameSelect.value, gameType.value))
 gameType.addEventListener('change', () => filterPlayers(gameSelect.value, gameType.value))
 lightToggle.addEventListener('click', toggleLightMode)
+
+enrolledDate.valueAsDate = new Date()
 
 window.onload = loadPlayers
 
@@ -52,6 +57,28 @@ async function loadGames() {
             return res.json()
         }).then(json => {
             gameArray = json
+            let defaultOption = document.createElement("option")
+            defaultOption.value = "no-game"
+            defaultOption.innerHTML = "No Filter"
+            gameSelect.appendChild(defaultOption)
+            gameArray.forEach(game => {
+                let option = document.createElement("option")
+                option.value = game.game
+                option.innerHTML = getGameName(game.game).toString()
+                gameSelect.appendChild(option)
+                let checkbox = document.createElement("input")
+                checkbox.type = "checkbox"
+                checkbox.value = game.game
+                checkbox.name = "games"
+                let date = document.createElement("input")
+                date.type = "date"
+
+                let label = document.createElement("label")
+                label.innerHTML = `${checkbox.outerHTML} ${getGameName(game.game)} ${date.outerHTML}`
+
+                gameListDiv.appendChild(label)
+            })
+            checkboxes = document.querySelectorAll('input[name="games"]') as NodeListOf<HTMLInputElement>
         }).catch(e => {
             console.log(e) // only for developers, friendly message added below
             gameType.classList.add("hide")

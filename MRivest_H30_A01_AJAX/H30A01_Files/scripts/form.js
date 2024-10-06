@@ -15,9 +15,8 @@ let winsField = document.querySelector("#wins");
 let lossesField = document.querySelector("#losses");
 let winsError = document.querySelector("#winsError");
 let lossesError = document.querySelector("#lossesError");
-const checkboxes = document.querySelectorAll('input[name="games"]');
-let enrolledDate = document.querySelector("#enrolled");
 let enrolledError = document.querySelector("#enrolledError");
+let dateError = document.querySelector("#dateError");
 // Regex pattern for email validation
 let emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 // Regex pattern for number validation
@@ -46,12 +45,22 @@ lNameField.addEventListener('change', () => {
 function validateForm() {
     let isValid = true;
     let checked = false;
+    let checkedBoxes = [];
     // Ensure at least one game is selected
     checkboxes.forEach((checkbox) => {
         if (checkbox.checked) {
             checked = true;
+            checkedBoxes.push(checkbox);
         }
     });
+    if (!checked) {
+        checkboxes.forEach((checkbox) => {
+            let input = checkbox.parentElement;
+            let dateField = input.querySelector('input[type="date"]');
+            dateField.classList.remove("fieldError");
+            dateError.classList.add("hide");
+        });
+    }
     // Validate all fields
     if (fNameField.value === "") {
         fNameError.classList.remove("hide");
@@ -97,6 +106,19 @@ function validateForm() {
     else {
         gameError.classList.add("hide");
     }
+    checkedBoxes.forEach((checkbox) => {
+        let input = checkbox.parentElement;
+        let dateField = input.querySelector('input[type="date"]');
+        if (dateField.value === "") {
+            dateField.classList.add("fieldError");
+            dateError.classList.remove("hide");
+            isValid = false;
+        }
+        else {
+            dateField.classList.remove("fieldError");
+            dateError.classList.add("hide");
+        }
+    });
     if (usernameField.value === "") {
         usernameError.classList.remove("hide");
         usernameField.classList.add("fieldError");

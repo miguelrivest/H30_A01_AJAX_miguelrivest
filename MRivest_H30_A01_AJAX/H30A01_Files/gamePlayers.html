@@ -16,25 +16,13 @@
             <li>Game:</li>
             <li>
                 <select name="game-select" id="game-select">
-                    <option value="no-game">Select</option>
-                    <option value="uno">Uno</option>
-                    <option value="chess">Chess</option>
-                    <option value="battleship">Battleship</option>
-                    <option value="cribbage">Cribbage</option>
-                    <option value="hearts">Hearts</option>
-                    <option value="crazy8s">Crazy 8s</option>
-                    <option value="checkers">Checkers</option>
-                    <option value="connect4">Connect 4</option>
-                    <option value="war">War</option>
-                    <option value="mancala">Mancala</option>
-                    <option value="backgammon">Backgammon</option>
-                    <option value="dominoes">Dominoes</option>
+
                 </select>
             </li>
             <li id="type-title">Game Type:</li>
             <li>
                 <select name="game-type" id="game-type">
-                    <option value="no-type">Select</option>
+                    <option value="no-type">No Filter</option>
                     <option value="card">Card</option>
                     <option value="board">Board</option>
                     <option value="strategy">Strategy</option>
@@ -65,57 +53,11 @@
             <fieldset>
                 <legend>Games Played:</legend>
                 <div id="game-list" class="game-list">
-                    <label>
-                        <input type="checkbox" name="games" value="battleship">Battleship
-                        <input type="date">
-                    </label>
-                    <label>
-                        <input type="checkbox" name="games" value="cribbage">Cribbage
-                        <input type="date">
-                    </label>
-                    <label>
-                        <input type="checkbox" name="games" value="hearts">Hearts
-                        <input type="date">
-                    </label>
-                    <label>
-                        <input type="checkbox" name="games" value="uno">Uno
-                        <input type="date">
-                    </label>
-                    <label>
-                        <input type="checkbox" name="games" value="crazy8s">Crazy 8s
-                        <input type="date">
-                    </label>
-                    <label>
-                        <input type="checkbox" name="games" value="chess">Chess
-                        <input type="date">
-                    </label>
-                    <label>
-                        <input type="checkbox" name="games" value="checkers">Checkers
-                        <input type="date">
-                    </label>
-                    <label>
-                        <input type="checkbox" name="games" value="connect4">Connect 4
-                        <input type="date">
-                    </label>
-                    <label>
-                        <input type="checkbox" name="games" value="war">War
-                        <input type="date">
-                    </label>
-                    <label>
-                        <input type="checkbox" name="games" value="mancala">Mancala
-                        <input type="date">
-                    </label>
-                    <label>
-                        <input type="checkbox" name="games" value="backgammon">Backgammon
-                        <input type="date">
-                    </label>
-                    <label>
-                        <input type="checkbox" name="games" value="dominoes">Dominoes
-                        <input type="date">
-                    </label>
+
                 </div>
             </fieldset>
             <p id="gameError" class="error hide">Must choose at least one game</p>
+            <p id="dateError" class="error hide">Each checked box must have a date</p>
             <label for="wins">Wins:</label>
             <input type="text" name="wins" id="wins">
             <p id="winsError" class="error hide">Wins must be a valid number</p>

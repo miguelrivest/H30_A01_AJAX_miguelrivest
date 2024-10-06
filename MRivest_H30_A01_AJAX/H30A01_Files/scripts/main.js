@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 let playerDiv = document.querySelector("#player-display");
+let checkboxes;
 let playerFileDir = "./files/players.json";
 let gameFileDir = "./files/games.json";
 let playerArray;
@@ -18,16 +19,19 @@ let gameSelect = document.querySelector("#game-select");
 let gameType = document.querySelector("#game-type");
 let gameTypeTitle = document.querySelector("#type-title");
 let gameTypeArray;
+let gameListDiv = document.querySelector("#game-list");
 let filterDiv = document.querySelector("#filter-container");
 let showFormButton = document.querySelector("#add-player");
 let formBlock = document.querySelector("#form-block");
 let lightToggle = document.querySelector("#toggle-colors");
 let isDarkMode = true;
+let enrolledDate = document.querySelector("#enrolled");
 const prefersLightColorScheme = window.matchMedia('(prefers-color-scheme: light)').matches;
 showFormButton.addEventListener('click', toggleForm);
 gameSelect.addEventListener('change', () => filterPlayers(gameSelect.value, gameType.value));
 gameType.addEventListener('change', () => filterPlayers(gameSelect.value, gameType.value));
 lightToggle.addEventListener('click', toggleLightMode);
+enrolledDate.valueAsDate = new Date();
 window.onload = loadPlayers;
 function loadPlayers() {
     // Check if user prefers light mode and toggles it if they do
@@ -56,6 +60,26 @@ function loadGames() {
             return res.json();
         }).then(json => {
             gameArray = json;
+            let defaultOption = document.createElement("option");
+            defaultOption.value = "no-game";
+            defaultOption.innerHTML = "No Filter";
+            gameSelect.appendChild(defaultOption);
+            gameArray.forEach(game => {
+                let option = document.createElement("option");
+                option.value = game.game;
+                option.innerHTML = getGameName(game.game).toString();
+                gameSelect.appendChild(option);
+                let checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.value = game.game;
+                checkbox.name = "games";
+                let date = document.createElement("input");
+                date.type = "date";
+                let label = document.createElement("label");
+                label.innerHTML = `${checkbox.outerHTML} ${getGameName(game.game)} ${date.outerHTML}`;
+                gameListDiv.appendChild(label);
+            });
+            checkboxes = document.querySelectorAll('input[name="games"]');
         }).catch(e => {
             console.log(e); // only for developers, friendly message added below
             gameType.classList.add("hide");

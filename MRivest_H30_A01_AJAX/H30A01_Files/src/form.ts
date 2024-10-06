@@ -15,9 +15,8 @@ let winsField = document.querySelector("#wins")! as HTMLInputElement
 let lossesField = document.querySelector("#losses")! as HTMLInputElement
 let winsError = document.querySelector("#winsError")! as HTMLParagraphElement
 let lossesError = document.querySelector("#lossesError")! as HTMLParagraphElement
-const checkboxes = document.querySelectorAll('input[name="games"]') as NodeListOf<HTMLInputElement>
-let enrolledDate = document.querySelector("#enrolled")! as HTMLInputElement
 let enrolledError = document.querySelector("#enrolledError")! as HTMLParagraphElement
+let dateError = document.querySelector("#dateError")! as HTMLParagraphElement
 
 // Regex pattern for email validation
 let emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
@@ -48,15 +47,26 @@ lNameField.addEventListener('change', () => {
 
 // Function to validate the form
 function validateForm(): Boolean {
+
     let isValid = true
     let checked = false
-
+    let checkedBoxes: Array<HTMLInputElement> = []
     // Ensure at least one game is selected
     checkboxes.forEach((checkbox) => {
         if (checkbox.checked) {
             checked = true
+            checkedBoxes.push(checkbox)
         }
     })
+
+    if (!checked) {
+        checkboxes.forEach((checkbox) => {
+            let input = checkbox.parentElement as HTMLLabelElement
+            let dateField = input.querySelector('input[type="date"]') as HTMLInputElement
+            dateField.classList.remove("fieldError")
+            dateError.classList.add("hide")
+        })
+    }
 
     // Validate all fields
     if (fNameField.value === "") {
@@ -105,6 +115,19 @@ function validateForm(): Boolean {
     } else {
         gameError.classList.add("hide")
     }
+
+    checkedBoxes.forEach((checkbox) => {
+        let input = checkbox.parentElement as HTMLLabelElement
+        let dateField = input.querySelector('input[type="date"]') as HTMLInputElement
+        if (dateField.value === "") {
+            dateField.classList.add("fieldError")
+            dateError.classList.remove("hide")
+            isValid = false
+        } else {
+            dateField.classList.remove("fieldError")
+            dateError.classList.add("hide")
+        }
+    })
 
 
     if (usernameField.value === "") {
