@@ -78,6 +78,19 @@ async function loadGames() {
 
                 gameListDiv.appendChild(label)
             })
+
+            let gameTypes = [...new Set(gameArray.map(game => game.type))]
+            defaultOption = document.createElement("option")
+            defaultOption.value = "no-type"
+            defaultOption.innerHTML = "No Filter"
+            gameType.appendChild(defaultOption)
+
+            gameTypes.forEach(type => {
+                let option = document.createElement("option")
+                option.value = type
+                option.innerHTML = type.charAt(0).toUpperCase() + type.slice(1)
+                gameType.appendChild(option)
+            })
             checkboxes = document.querySelectorAll('input[name="games"]') as NodeListOf<HTMLInputElement>
         }).catch(e => {
             console.log(e) // only for developers, friendly message added below
