@@ -38,7 +38,7 @@ function loadPlayers() {
     if (prefersLightColorScheme) {
         toggleLightMode();
     }
-    fetch(playerFileDir)
+    fetch(playerFileDir, { cache: "no-cache" })
         .then(res => {
         return res.json();
     }).then(obj => {
